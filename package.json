@@ -1,0 +1,28 @@
+{
+  "name": "service_web",
+  "version": "1.0.0",
+  "description": "Autheur: Didier Mathieu\r Cours: Service Web\r Date: 2026-04-22",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cgpvicto-2444332/TP-Service-Web-Didier-Mathieu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/cgpvicto-2444332/TP-Service-Web-Didier-Mathieu/issues"
+  },
+  "homepage": "https://github.com/cgpvicto-2444332/TP-Service-Web-Didier-Mathieu#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
