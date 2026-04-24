@@ -7,6 +7,9 @@ import pool from "../config/db_pg.js";
 const _ajouterUtilisateur = async (utilisateur) => {
 };
 
+const _validationCle = async (cleApi) => {
+};
+
 /**
  * Récupère la clé d'api en fonction du courriel d'un utilisateur si le mot de passe et courriel sont valides.
  * @param {string} courriel Le courriel de l'utilisateur à vérifier.
