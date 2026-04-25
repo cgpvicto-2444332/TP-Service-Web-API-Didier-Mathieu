@@ -8,6 +8,16 @@ const _ajouterUtilisateur = async (utilisateur) => {
 };
 
 const _validationCle = async (cleApi) => {
+    const requete = "SELECT * FROM bibliotheque WHERE cle_api = $1";
+    const params = [cleApi];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows.length > 0;
+    } catch (erreur) {
+        console.log(`Erreur, code: ${erreur.code} sqlState ${erreur.sqlState} : ${erreur.sqlMessage}`);
+        throw erreur;
+    }
 };
 
 /**

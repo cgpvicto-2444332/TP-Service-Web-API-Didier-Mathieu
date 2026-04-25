@@ -5,6 +5,21 @@ import pool from "../config/db_pg.js";
  * @param {boolean} tousLivres Si vrai, retourne tous les livres, sinon retourne seulement les livres disponibles
  */
 const _getListeLivres = async (tousLivres) => {
+    let requete = "SELECT id, bibliotheque_id, titre, auteur, isbn, date_ajout, disponible FROM livres";
+    const params = [];
+    
+    if (!tousLivres) {
+        requete += " WHERE disponible = $1";
+        params.push(true);
+    }
+
+    try {
+        const livres = await pool.query(requete, params);
+        return livres.rows;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**
