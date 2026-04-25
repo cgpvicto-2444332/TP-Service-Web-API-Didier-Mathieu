@@ -1,7 +1,7 @@
 import * as bibliothequeModele from '../models/bibliotheque.model.js';
 
 export const getListeLivres = async (req, res) => {
-    const tousLivres = req.query.tous === '1';
+    const tousLivres = req.query.tous === 'true';
 
     try {
         const resultat = await bibliothequeModele._getListeLivres(tousLivres);

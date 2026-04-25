@@ -28,7 +28,7 @@ app.get('/api', (req, res) => {
 });
 
 app.use('/api/bibliotheque', bibliothequeRouter);
-app.use('/api/users', utilisateurRouter);
+app.use('/api/utilisateurs', utilisateurRouter);
 
 app.listen(port, () => {
     console.log(`Serveur démarré sur l'adresse http://localhost:${port}`);

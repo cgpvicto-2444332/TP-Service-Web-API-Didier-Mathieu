@@ -4,5 +4,152 @@
     "info":{
         "title": "TP API Bibliothèque 2444332",
         "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "Serveur de développement"
+        },
+        {
+            "url": "à venir",
+            "description": "Serveur render en ligne"
+        }
+    ],
+    "paths": {
+        "/api": {
+            "get": {
+                "summary": "Message de bienvenue",
+                "tags": ["Accueil"],
+                "responses": {
+                    "200": {
+                        "description": "Retourne un message de bienvenue",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bienvenue à l'API de prêts de bibliothèque!"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/bibliotheque/liste": {
+            "get": {
+                "summary": "Récupère une liste de livres.",
+                "security": [
+                    {
+                        "CleApiAuth": []
+                    }
+                ],
+                "tags": ["Livres"],
+                "description": "Récupère une liste de livres en fonction de si ils sont disponibles.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "tous",
+                        "description": "Pour afficher tous les livres et non seulement les livres disponibles.",
+                        "schema": {
+                            "type": "boolean",
+                            "example" : true
+                        },
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste de livres récupérée avec succès.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 3
+                                            },
+                                            "bibliotheque_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "titre": {
+                                                "type": "string",
+                                                "example": "Raconte-moi Carey Price"
+                                            },
+                                            "auteur": {
+                                                "type": "string",
+                                                "example": "Jean-François Chaumont"
+                                            },
+                                            "isbn": {
+                                                "type": "string", 
+                                                "example": "9782924025949"
+                                            },
+                                            "date_ajout": { 
+                                                "type": "string",
+                                                "example": "2015-03-05T05:00:00.000Z"
+                                            },
+                                            "disponible": {
+                                                "type": "boolean",
+                                                "example": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Clé API manquante ou invalide.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": { 
+                                            "type": "string", 
+                                            "example": "Vous devez fournir une clé api" 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la récupération de la liste des livres"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "CleApiAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization",
+                "description": "Veuillez entrer votre clé sous le format : cle_api XXXXXX"
+            }
+        }
     }
 }
