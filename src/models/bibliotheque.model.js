@@ -73,3 +73,14 @@ const _modifierStatusPret = async (id, status) => {
  */
 const _supprimerPret = async (id) => {
 };
+
+export {
+    _getListeLivres,
+    _getLivreById,
+    _ajouterLivre,
+    _modifierLivre,
+    _supprimerLivre,
+    _ajouterPret,
+    _modifierPret,
+    _supprimerPret
+}

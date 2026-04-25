@@ -24,3 +24,10 @@ const _recupererUtilisateur = async (courriel) => {
  */
 const _nouvelleCle = async (nouvelleCle, id) => {
 };
+
+export {
+    _ajouterUtilisateur,
+    _validationCle,
+    _recupererUtilisateur,
+    _nouvelleCle
+}

@@ -1,4 +1,4 @@
-import * as utilisateursModel from '../models/utilisateurs.model.js';
+import * as utilisateursModel from '../models/utilisateur.model.js';
 
 export const ajouterUtilisateur = async (req, res) => {
 };

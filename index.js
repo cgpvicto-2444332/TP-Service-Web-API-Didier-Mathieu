@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
+import bibliothequeRouter from './src/routes/bibliotheque.route.js';
+import utilisateurRouter from './src/routes/utilisateur.route.js';
 
 const swaggerDocument = JSON.parse(fs.readFileSync('./src/config/documentation.json', 'utf8'));
 
@@ -24,6 +26,9 @@ app.use('/api/docs',
 app.get('/api', (req, res) => {
     res.json({ message: "Bienvenue à l'API de prêts de bibliothèque!" });
 });
+
+app.use('/api/bibliotheque', bibliothequeRouter);
+app.use('/api/users', utilisateurRouter);
 
 app.listen(port, () => {
     console.log(`Serveur démarré sur l'adresse http://localhost:${port}`);

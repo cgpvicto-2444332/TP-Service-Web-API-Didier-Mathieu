@@ -1,9 +1,12 @@
 import * as bibliothequeModele from '../models/bibliotheque.model.js';
 
 export const getListeLivres = async (req, res) => {
+    res.status(200).json({
+        message: `test`
+    });
 };
 
-export const getListeById = async (req, res) => {
+export const getLivreById = async (req, res) => {
 };
 
 export const ajouterLivre = async (req, res) => {
