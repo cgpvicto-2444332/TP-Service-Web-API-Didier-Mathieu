@@ -195,7 +195,7 @@
                                     "properties": {
                                         "erreur": {
                                             "type": "string",
-                                            "example": "Le livre avec l'id [id] n'existe pas"
+                                            "example": "Le livre avec l'id [id] n'existe pas pour cette bibliothèque"
                                         }
                                     }
                                 }

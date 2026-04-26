@@ -26,10 +26,31 @@ const _getListeLivres = async (tousLivres, bibliothequeId) => {
  * Récupère toutes les détails d'un livre en fonction de son identifiant.
  * @param {number} id L'identifiant du livre.
  */
-const _getLivreById = async (id) => {
+const _getLivreById = async (id, bibliothequeId) => {
+    const requete = "SELECT bibliotheque_id, titre, auteur, isbn, disponible, description FROM public.livres WHERE id = $1 AND bibliotheque_id = $2;";
+    const params = [id, bibliothequeId];
+
+    try {
+        const livre = await pool.query(requete, params);
+        console.log(requete);
+        return livre.rows[0];
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 const _getPretsLivreId = async (idLivre) => {
+    const requete = "SELECT *, CASE WHEN date_retour IS NULL THEN 'en cours' ELSE 'terminé' END AS statut_pret FROM public.prets WHERE livre_id = $1;";
+    const params = [idLivre];
+
+    try {
+        const prets = await pool.query(requete, params);
+        return prets.rows;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**
@@ -95,6 +116,7 @@ const _supprimerPret = async (id) => {
 export {
     _getListeLivres,
     _getLivreById,
+    _getPretsLivreId,
     _ajouterLivre,
     _modifierLivre,
     _supprimerLivre,
