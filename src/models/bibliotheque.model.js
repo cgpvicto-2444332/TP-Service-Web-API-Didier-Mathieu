@@ -5,7 +5,7 @@ import pool from "../config/db_pg.js";
  * @param {boolean} tousLivres Si vrai, retourne tous les livres, sinon retourne seulement les livres disponibles
  */
 const _getListeLivres = async (tousLivres, bibliothequeId) => {
-    let requete = "SELECT id, bibliotheque_id, titre, auteur, isbn, date_ajout, disponible FROM livres WHERE bibliotheque_id = $1";
+    let requete = "SELECT * FROM livres WHERE bibliotheque_id = $1";
     const params = [bibliothequeId];
     
     if (!tousLivres) {
@@ -32,7 +32,6 @@ const _getLivreById = async (id, bibliothequeId) => {
 
     try {
         const livre = await pool.query(requete, params);
-        console.log(requete);
         return livre.rows[0];
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
@@ -40,8 +39,13 @@ const _getLivreById = async (id, bibliothequeId) => {
     }
 };
 
+/**
+ * Récupère tout les prêts d'un livre en fonction de son identifiant.
+ * @param {number} idLivre L'identifiant du livre.
+ * @returns La liste des prêts avec un champ suplémentaire pour si il est terminé ou non.
+ */
 const _getPretsLivreId = async (idLivre) => {
-    const requete = "SELECT *, CASE WHEN date_retour IS NULL THEN 'en cours' ELSE 'terminé' END AS statut_pret FROM public.prets WHERE livre_id = $1;";
+    const requete = "SELECT id, emprunteur, date_retour, CASE WHEN date_retour IS NULL THEN 'en cours' ELSE 'terminé' END AS statut_pret FROM public.prets WHERE livre_id = $1;";
     const params = [idLivre];
 
     try {

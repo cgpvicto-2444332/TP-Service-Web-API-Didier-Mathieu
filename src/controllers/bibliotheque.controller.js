@@ -23,7 +23,7 @@ export const getLivreById = async (req, res) => {
         const livre = await bibliothequeModele._getLivreById(idLivre, bibliothequeId);
 
         if (!livre) {
-            res.status(404).json({
+            return res.status(404).json({
                 erreur: `Le livre avec l'id ${idLivre} n'existe pas pour cette bibliothèque`
             });
         }
@@ -40,7 +40,7 @@ export const getLivreById = async (req, res) => {
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
         res.status(500).json({
-            erreur: `Echec lors du livre avec l'id ${idLivre}`
+            erreur: `Echec lors de la récupération du livre avec l'id ${idLivre}`
         });
     }
 };
