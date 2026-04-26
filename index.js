@@ -1,13 +1,10 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import bibliothequeRouter from './src/routes/bibliotheque.route.js';
 import utilisateurRouter from './src/routes/utilisateur.route.js';
 
 const swaggerDocument = JSON.parse(fs.readFileSync('./src/config/documentation.json', 'utf8'));
-
-dotenv.config();
 
 const swaggerOptions = {
     customCss: '.swagger-ui .topbar { display: none }',

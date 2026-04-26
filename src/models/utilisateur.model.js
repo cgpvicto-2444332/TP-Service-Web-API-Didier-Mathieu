@@ -13,7 +13,10 @@ const _validationCle = async (cleApi) => {
 
     try {
         const resultats = await pool.query(requete, params);
-        return resultats.rows.length > 0;
+        if (resultats.rows.length > 0) {
+            return resultats.rows[0];
+        }
+        return null;
     } catch (erreur) {
         console.log(`Erreur, code: ${erreur.code} sqlState ${erreur.sqlState} : ${erreur.sqlMessage}`);
         throw erreur;

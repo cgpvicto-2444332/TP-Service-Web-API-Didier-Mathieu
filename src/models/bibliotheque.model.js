@@ -4,12 +4,12 @@ import pool from "../config/db_pg.js";
  * Récupère tout les livres dans la base de donnée
  * @param {boolean} tousLivres Si vrai, retourne tous les livres, sinon retourne seulement les livres disponibles
  */
-const _getListeLivres = async (tousLivres) => {
-    let requete = "SELECT id, bibliotheque_id, titre, auteur, isbn, date_ajout, disponible FROM livres";
-    const params = [];
+const _getListeLivres = async (tousLivres, bibliothequeId) => {
+    let requete = "SELECT id, bibliotheque_id, titre, auteur, isbn, date_ajout, disponible FROM livres WHERE bibliotheque_id = $1";
+    const params = [bibliothequeId];
     
     if (!tousLivres) {
-        requete += " WHERE disponible = $1";
+        requete += " AND disponible = $2";
         params.push(true);
     }
 

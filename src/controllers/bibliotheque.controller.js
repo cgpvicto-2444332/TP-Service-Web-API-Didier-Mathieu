@@ -2,9 +2,10 @@ import * as bibliothequeModele from '../models/bibliotheque.model.js';
 
 export const getListeLivres = async (req, res) => {
     const tousLivres = req.query.tous === 'true';
+    const bibliothequeId = req.bibliothequeId;
 
     try {
-        const resultat = await bibliothequeModele._getListeLivres(tousLivres);
+        const resultat = await bibliothequeModele._getListeLivres(tousLivres, bibliothequeId);
         res.status(200).json(resultat);
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);

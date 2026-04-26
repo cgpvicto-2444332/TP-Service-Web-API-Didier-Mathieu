@@ -49,7 +49,7 @@
                     }
                 ],
                 "tags": ["Livres"],
-                "description": "Récupère une liste de livres en fonction de si ils sont disponibles.",
+                "description": "Récupère une liste de livres, pour une bibliothèque particulière avec sa clé d'api, en fonction de si ils sont disponibles.",
                 "parameters": [
                     {
                         "in": "query",

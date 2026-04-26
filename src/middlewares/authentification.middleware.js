@@ -9,6 +9,7 @@ const authentification = async (req, res, next) => {
     try {
         const cleValide = await _validationCle(cleApi);
         if(cleValide) {
+            req.bibliothequeId = cleValide.id;
             next();
         } else {
             return res.status(401).json({ message: "Clé API invalide" });
