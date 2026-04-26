@@ -29,6 +29,9 @@ const _getListeLivres = async (tousLivres, bibliothequeId) => {
 const _getLivreById = async (id) => {
 };
 
+const _getPretsLivreId = async (idLivre) => {
+};
+
 /**
  * Insère un livre dans la base de donnée.
  * @param {object} livre Les données du livre à ajouter.

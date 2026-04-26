@@ -16,6 +16,7 @@ export const getListeLivres = async (req, res) => {
 };
 
 export const getLivreById = async (req, res) => {
+    res.status(200).json({"message": "test"})
 };
 
 export const ajouterLivre = async (req, res) => {
