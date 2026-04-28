@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.get('/liste', authentification, bibliothequeController.getListeLivres);
 router.get('/livre/:id', authentification, bibliothequeController.getLivreById);
-router.post('/livre/:id', bibliothequeController.ajouterLivre)
-router.put('/livre/:id', bibliothequeController.modifierLivre)
-router.delete('/livre/:id', bibliothequeController.supprimerLivre)
-router.post('/pret/:id', bibliothequeController.ajouterPret)
-router.put('/pret/:id', bibliothequeController.modifierPret)
-router.delete('/pret/:id', bibliothequeController.supprimerPret)
+router.post('/livre', authentification, bibliothequeController.ajouterLivre)
+router.put('/livre/:id', authentification, bibliothequeController.modifierLivre)
+router.delete('/livre/:id', authentification, bibliothequeController.supprimerLivre)
+router.post('/pret', authentification, bibliothequeController.ajouterPret)
+router.put('/pret/:id', authentification, bibliothequeController.modifierPret)
+router.delete('/pret/:id', authentification, bibliothequeController.supprimerPret)
 
 export default router;
