@@ -4,7 +4,7 @@ import authentification from '../middlewares/authentification.middleware.js';
 
 const router = express.Router();
 
-router.get('/liste', authentification, bibliothequeController.getListeLivres);
+router.get('/livre', authentification, bibliothequeController.getListeLivres);
 router.get('/livre/:id', authentification, bibliothequeController.getLivreById);
 router.post('/livre', authentification, bibliothequeController.ajouterLivre)
 router.put('/livre/:id', authentification, bibliothequeController.modifierLivre)

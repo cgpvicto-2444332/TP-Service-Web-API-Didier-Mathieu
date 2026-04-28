@@ -40,7 +40,7 @@
                 }
             }
         },
-        "/api/bibliotheque/liste": {
+        "/api/bibliotheque/livre": {
             "get": {
                 "summary": "Récupère une liste de livres.",
                 "security": [
