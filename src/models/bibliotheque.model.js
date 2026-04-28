@@ -45,7 +45,7 @@ const _getLivreById = async (id, bibliothequeId) => {
  * @returns La liste des prêts avec un champ suplémentaire pour si il est terminé ou non.
  */
 const _getPretsLivreId = async (idLivre) => {
-    const requete = "SELECT id, emprunteur, date_retour, CASE WHEN date_retour IS NULL THEN 'en cours' ELSE 'terminé' END AS statut_pret FROM public.prets WHERE livre_id = $1;";
+    const requete = "SELECT id, livre_id, emprunteur, date_debut, date_retour_prevue, date_retour, CASE WHEN status THEN 'Retourné' ELSE 'En cours' END AS statut_pret FROM public.prets WHERE livre_id = $1;";
     const params = [idLivre];
 
     try {
