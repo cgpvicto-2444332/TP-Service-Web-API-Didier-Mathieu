@@ -204,17 +204,30 @@
                                                     "format": "int32",
                                                     "example": 1
                                                 },
+                                                "livre_id": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 1
+                                                },
                                                 "emprunteur": {
                                                     "type": "string",
                                                     "example": "Jean Dupont"
+                                                },
+                                                "date_debut": {
+                                                    "type": "string",
+                                                    "example": "2024-04-01T04:00:00.000Z"
                                                 },
                                                 "date_retour": {
                                                     "type": "string",
                                                     "example": "2024-05-01T04:00:00.000Z"
                                                 },
+                                                "date_retour_prevue": {
+                                                    "type": "string",
+                                                    "example": "2024-05-01T04:00:00.000Z"
+                                                },
                                                 "statut_pret": {
                                                     "type": "string",
-                                                    "example": "terminé"
+                                                    "example": "Retourné"
                                                 }
                                             }
                                         }
