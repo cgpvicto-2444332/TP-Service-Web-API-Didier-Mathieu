@@ -46,6 +46,55 @@ export const getLivreById = async (req, res) => {
 };
 
 export const ajouterLivre = async (req, res) => {
+    const champsRequis = [
+        "titre",
+        "auteur",
+        "isbn",
+        "disponible"
+    ];
+    
+    const champsManquants = [];
+
+    for (let i = 0; i < champsRequis.length; i++) {
+        const champ = champsRequis[i];
+        if (req.body[champ] === null || req.body[champ] === undefined || req.body[champ] === "") {
+            champsManquants.push(champ);
+        }
+    }
+    
+    if (champsManquants.length > 0) {
+        return res.status(400).json({
+            erreur: "Le format des données est invalide",
+            champs_manquants: champsManquants
+        });
+    }
+    
+    const nouveauLivre = {
+        id: null,
+        bibliotheque_id: req.bibliothequeId,
+        titre: req.body.titre,
+        auteur: req.body.auteur,
+        isbn: req.body.isbn,
+        date_ajout: req.body.date_ajout || new Date(),
+        disponible: req.body.disponible,
+        description: req.body.description
+    };
+    
+    try {
+        const resultat = await bibliothequeModele._ajouterLivre(nouveauLivre);
+
+        nouveauLivre.id = resultat.id;
+        
+        res.status(201).json({
+            message: `Le livre [${nouveauLivre.titre}] a été ajouté avec succès`,
+            livre: nouveauLivre
+        });
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
+        res.status(500).json({
+            erreur: `Echec lors de la création du livre [${nouveauLivre.titre}]`
+        });
+    }
 };
 
 export const modifierLivre = async (req, res) => {

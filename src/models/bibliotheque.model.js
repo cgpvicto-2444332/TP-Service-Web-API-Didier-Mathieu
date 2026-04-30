@@ -62,6 +62,16 @@ const _getPretsLivreId = async (idLivre) => {
  * @param {object} livre Les données du livre à ajouter.
  */
 const _ajouterLivre = async (livre) => {
+    const requete = "INSERT INTO livres (bibliotheque_id, titre, auteur, isbn, date_ajout, disponible, description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id"
+    const params = [livre.bibliotheque_id, livre.titre, livre.auteur, livre.isbn, livre.date_ajout, livre.disponible, livre.description];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**
