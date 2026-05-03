@@ -98,6 +98,61 @@ export const ajouterLivre = async (req, res) => {
 };
 
 export const modifierLivre = async (req, res) => {
+    const champsRequis = [
+        "titre",
+        "auteur",
+        "isbn",
+        "disponible"
+    ];
+    
+    const champsManquants = [];
+
+    for (let i = 0; i < champsRequis.length; i++) {
+        const champ = champsRequis[i];
+        if (req.body[champ] === null || req.body[champ] === undefined || req.body[champ] === "") {
+            champsManquants.push(champ);
+        }
+    }
+    
+    if (champsManquants.length > 0) {
+        return res.status(400).json({
+            erreur: "Le format des données est invalide",
+            champs_manquants: champsManquants
+        });
+    }
+    
+    try {
+        const livreActuel = await bibliothequeModele._getLivreById(req.params.id, req.bibliothequeId);
+
+        if(!livreActuel) {
+            return res.status(404).json({
+                erreur: `Le livre à l'ID [${livreAModifier.id}] n'existe pas pour cette bibliothèque dans la base de données`
+            });
+        }
+
+        const livreAModifier = {
+            id: req.params.id,
+            bibliotheque_id: req.bibliothequeId,
+            titre: req.body.titre,
+            auteur: req.body.auteur,
+            isbn: req.body.isbn,
+            disponible: req.body.disponible,
+            date_ajout: req.body.date_ajout ?? livreActuel.date_ajout,
+            description: req.body.description ?? livreActuel.description
+        };
+
+        const resultat = await bibliothequeModele._modifierLivre(livreAModifier);
+
+        return res.status(200).json({
+            message: `Le livre à l'ID [${livreAModifier.id}] a été modifié avec succès`
+        });
+    } catch (erreur) {
+        res.status(500);
+        res.send({
+            erreur: `Echec lors de la modification du livre [${livreAModifier.titre}]`
+        });
+        return;
+    }
 };
 
 export const modifierStatusLivre = async (req, res) => {
