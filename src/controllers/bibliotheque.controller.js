@@ -28,7 +28,7 @@ export const getLivreById = async (req, res) => {
             });
         }
 
-        const prets = await bibliothequeModele._getPretsLivreId(idLivre)
+        const prets = await bibliothequeModele._getPretsLivreId(idLivre);
         res.status(200).json({
             titre: livre.titre,
             auteur: livre.auteur,
@@ -100,6 +100,9 @@ export const ajouterLivre = async (req, res) => {
 export const modifierLivre = async (req, res) => {
 };
 
+export const modifierStatusLivre = async (req, res) => {
+};
+
 export const supprimerLivre = async (req, res) => {
 };
 
@@ -107,6 +110,9 @@ export const ajouterPret = async (req, res) => {
 };
 
 export const modifierPret = async (req, res) => {
+};
+
+export const modifierStatusPret = async (req, res) => {
 };
 
 export const supprimerPret = async(req, res) => {

@@ -137,4 +137,4 @@ export {
     _ajouterPret,
     _modifierPret,
     _supprimerPret
-}
+};
