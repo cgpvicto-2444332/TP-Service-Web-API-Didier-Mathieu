@@ -143,6 +143,153 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "summary": "Ajouter un livre.",
+                "security": [
+                    {
+                        "CleApiAuth": []
+                    }
+                ],
+                "tags": ["Livres"],
+                "description": "Ajouter un livre pour une bibliothèque particulière avec sa clé d'api.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["titre", "auteur", "isbn", "disponible"],
+                                "properties": {
+                                    "titre": {
+                                        "type": "string",
+                                        "example": "Martine à la plage"
+                                    },
+                                    "auteur": {
+                                        "type": "string",
+                                        "example": "Félix Beauchesne"
+                                    },
+                                    "isbn": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    },
+                                    "disponible": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "date_ajout": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2007-05-02",
+                                        "description": "Optionnel. Date d'ajout du livre (YYYY-MM-DD)."
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "L'histoire passionnante d'une prof de math.",
+                                        "description": "Optionnel. Une courte description du livre."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Livre ajouté avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le livre [nom du livre] a été ajouté avec succès"
+                                        },
+                                        "livre": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 9
+                                                },
+                                                "bibliotheque_id": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 1
+                                                },
+                                                "titre": {
+                                                    "type": "string",
+                                                    "example": "Martine à la plage"
+                                                },
+                                                "auteur": {
+                                                    "type": "string",
+                                                    "example": "Félix Beauchesne"
+                                                },
+                                                "isbn": {
+                                                    "type": "string",
+                                                    "example": "123456"
+                                                },
+                                                "date_ajout": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2007-05-02"
+                                                },
+                                                "disponible": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "L'histoire passionnante d'une prof de math."
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de paramètres manquants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le format des données est invalide"
+                                        },
+                                        "champs_manquants": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": ["disponible"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500" : {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la création du livre [nom du livre]"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/bibliotheque/livre/{id}": {
