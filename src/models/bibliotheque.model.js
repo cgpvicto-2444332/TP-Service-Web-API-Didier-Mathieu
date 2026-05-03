@@ -80,6 +80,16 @@ const _ajouterLivre = async (livre) => {
  * @param {object} livre Les données du livre à modifier.
  */
 const _modifierLivre = async (id, livre) => {
+    const requete = "UPDATE livres SET titre = $1, auteur = $2, isbn = $3, date_ajout = $4, disponible = $5, description = $6 WHERE id = $7 AND bibliotheque_id = $8 RETURNING *"
+    const params = [livre.titre, livre.auteur, livre.isbn, livre.date_ajout, livre.disponible, livre.description, id, livre.bibliotheque_id];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**
