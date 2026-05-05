@@ -8,11 +8,11 @@ router.get('/livre', authentification, bibliothequeController.getListeLivres);
 router.get('/livre/:id', authentification, bibliothequeController.getLivreById);
 router.post('/livre', authentification, bibliothequeController.ajouterLivre);
 router.put('/livre/:id', authentification, bibliothequeController.modifierLivre);
-router.put('/livre/:id', authentification, bibliothequeController.modifierStatusLivre);
+router.put('/livre/:id/status', authentification, bibliothequeController.modifierStatusLivre);
 router.delete('/livre/:id', authentification, bibliothequeController.supprimerLivre);
 router.post('/pret', authentification, bibliothequeController.ajouterPret);
 router.put('/pret/:id', authentification, bibliothequeController.modifierPret);
-router.put('/pret/:id', authentification, bibliothequeController.modifierStatusPret);
+router.put('/pret/:id/status', authentification, bibliothequeController.modifierStatusPret);
 router.delete('/pret/:id', authentification, bibliothequeController.supprimerPret);
 
 export default router;

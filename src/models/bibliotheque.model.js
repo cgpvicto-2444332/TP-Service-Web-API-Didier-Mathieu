@@ -94,9 +94,20 @@ const _modifierLivre = async (livre) => {
 /**
  * Modifie le status d'un livre en fonction de son identifiant.
  * @param {number} id L'identifiant du livre à modifier.
+ * @param {number} bibliothequeId L'identifiant de la bibliothèque.
  * @param {string} status Le status du livre à modifier.
  */
-const _modifierStatusLivre = async (id, status) => {
+const _modifierStatusLivre = async (id, bibliothequeId, status) => {
+    const requete = "UPDATE livres SET disponible = $1 WHERE id = $2 AND bibliotheque_id = $3 RETURNING *"
+    const params = [status, id, bibliothequeId];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**
@@ -142,8 +153,10 @@ export {
     _getPretsLivreId,
     _ajouterLivre,
     _modifierLivre,
+    _modifierStatusLivre,
     _supprimerLivre,
     _ajouterPret,
     _modifierPret,
+    _modifierStatusPret,
     _supprimerPret
 };
