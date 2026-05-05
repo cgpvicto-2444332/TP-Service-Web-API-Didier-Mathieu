@@ -203,7 +203,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Le livre [nom du livre] a été ajouté avec succès"
+                                            "example": "Le livre [titre du livre] a été ajouté avec succès"
                                         },
                                         "livre": {
                                             "type": "object",
@@ -282,7 +282,7 @@
                                     "properties": {
                                         "erreur": {
                                             "type": "string",
-                                            "example": "Echec lors de la création du livre [nom du livre]"
+                                            "example": "Echec lors de la création du livre [titre du livre]"
                                         }
                                     }
                                 }
@@ -431,6 +431,157 @@
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Modifier un livre.",
+                "security": [
+                    {
+                        "CleApiAuth": []
+                    }
+                ],
+                "tags": ["Livres"],
+                "description": "Modifier un livre en fonction de son ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "ID du livre",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["titre", "auteur", "isbn", "disponible"],
+                                "properties": {
+                                    "titre": {
+                                        "type": "string",
+                                        "example": "Le Canadien face au bêtes sauvages"
+                                    },
+                                    "auteur": {
+                                        "type": "string",
+                                        "example": "Martin Matte"
+                                    },
+                                    "isbn": {
+                                        "type": "string",
+                                        "example": "987654321"
+                                    },
+                                    "disponible": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "date_ajout": {
+                                        "type": "integer",
+                                        "example": "2026-05-06",
+                                        "nullable": true
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Les buffalos vont faire face aux jeunes Canadiens en bleu et rouge.",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Livre modifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le livre à l'ID [id] a été modifié avec succès"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Erreur de paramètres manquants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le format des données est invalide"
+                                        },
+                                        "champs_manquants": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": ["titre", "auteur"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Clé API manquante ou invalide.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": { 
+                                            "type": "string", 
+                                            "example": "Vous devez fournir une clé api" 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404" : {
+                        "description": "Livre non rencontré",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le livre à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "500" : {
+                        "description": "Livre non modifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la modification du livre [titre du livre]"
+                                        }
+                                    }
+                                }   
                             }
                         }
                     }

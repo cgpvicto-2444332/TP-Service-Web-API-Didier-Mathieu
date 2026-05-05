@@ -6,10 +6,10 @@ export const getListeLivres = async (req, res) => {
 
     try {
         const resultat = await bibliothequeModele._getListeLivres(tousLivres, bibliothequeId);
-        res.status(200).json(resultat);
+        return res.status(200).json(resultat);
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
-        res.status(500).json({
+        return res.status(500).json({
             erreur: "Echec lors de la récupération de la liste des livres"
         });
     }
@@ -24,12 +24,12 @@ export const getLivreById = async (req, res) => {
 
         if (!livre) {
             return res.status(404).json({
-                erreur: `Le livre avec l'id ${idLivre} n'existe pas pour cette bibliothèque`
+                erreur: `Le livre avec l'id [${idLivre}] n'existe pas pour cette bibliothèque`
             });
         }
 
         const prets = await bibliothequeModele._getPretsLivreId(idLivre);
-        res.status(200).json({
+        return res.status(200).json({
             titre: livre.titre,
             auteur: livre.auteur,
             isbn: livre.isbn,
@@ -39,7 +39,7 @@ export const getLivreById = async (req, res) => {
         });
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
-        res.status(500).json({
+        return res.status(500).json({
             erreur: `Echec lors de la récupération du livre avec l'id ${idLivre}`
         });
     }
@@ -85,13 +85,13 @@ export const ajouterLivre = async (req, res) => {
 
         nouveauLivre.id = resultat.id;
         
-        res.status(201).json({
+        return res.status(201).json({
             message: `Le livre [${nouveauLivre.titre}] a été ajouté avec succès`,
             livre: nouveauLivre
         });
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
-        res.status(500).json({
+        return res.status(500).json({
             erreur: `Echec lors de la création du livre [${nouveauLivre.titre}]`
         });
     }
@@ -126,7 +126,7 @@ export const modifierLivre = async (req, res) => {
 
         if(!livreActuel) {
             return res.status(404).json({
-                erreur: `Le livre à l'ID [${livreAModifier.id}] n'existe pas pour cette bibliothèque dans la base de données`
+                erreur: `Le livre à l'ID [${req.params.id}] n'existe pas pour cette bibliothèque dans la base de données`
             });
         }
 
@@ -147,11 +147,10 @@ export const modifierLivre = async (req, res) => {
             message: `Le livre à l'ID [${livreAModifier.id}] a été modifié avec succès`
         });
     } catch (erreur) {
-        res.status(500);
-        res.send({
-            erreur: `Echec lors de la modification du livre [${livreAModifier.titre}]`
+        console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
+        return res.status(500).json({
+            erreur: `Echec lors de la modification du livre [${req.body.titre}]`
         });
-        return;
     }
 };
 
