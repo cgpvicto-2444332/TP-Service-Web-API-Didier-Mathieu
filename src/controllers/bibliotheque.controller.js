@@ -177,12 +177,12 @@ export const modifierStatusLivre = async (req, res) => {
         const resultat = await bibliothequeModele._modifierStatusLivre(idLivre, bibliothequeId, status);
 
         return res.status(200).json({
-            message: `Le livre à l'ID [${idLivre}] a été modifié avec succès`
+            message: `Le status du libre à l'ID [${idLivre}] a été modifié avec succès`
         });
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
         return res.status(500).json({
-            erreur: `Echec lors de la modification du livre [${idLivre}]`
+            erreur: `Echec lors de la modification du status du livre [${idLivre}]`
         });
     }
 };

@@ -587,6 +587,130 @@
                     }
                 }
             }
+        },
+        "/api/bibliotheque/livre/{id}/status": {
+            "put": {
+                "summary": "Modifier le status d'un livre.",
+                "security": [
+                    {
+                        "CleApiAuth": []
+                    }
+                ],
+                "tags": ["Livres"],
+                "description": "Modifier le status d'un livre en fonction de son ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "ID du livre",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["disponible"],
+                                "properties": {
+                                    "disponible": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Status du livre modifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le status du libre à l'ID [id] a été modifié avec succès"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Erreur de paramètres manquants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le champ disponible est invalide"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Clé API manquante ou invalide.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": { 
+                                            "type": "string", 
+                                            "example": "Vous devez fournir une clé api" 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404" : {
+                        "description": "Livre non rencontré",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le livre à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "500" : {
+                        "description": "Status du livre non modifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la modification du status du livre [id]"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
