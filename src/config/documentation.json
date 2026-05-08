@@ -948,6 +948,247 @@
                     }
                 }
             }
+        },
+        "/api/bibliotheque/pret/{id}": {
+            "put": {
+                "summary": "Modifier un prêt.",
+                "security": [
+                    {
+                        "CleApiAuth": []
+                    }
+                ],
+                "tags": ["Prêts"],
+                "description": "Modifier un prêt en fonction de son ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "ID du prêt",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 4
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["livre_id", "emprunteur", "date_debut", "date_retour_prevue", "status"],
+                                "properties": {
+                                    "livre_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "emprunteur": {
+                                        "type": "string",
+                                        "example": "Martin Matte"
+                                    },
+                                    "date_debut": {
+                                        "type": "string",
+                                        "example": "2007-05-02T04:00:00.000Z"
+                                    },
+                                    "date_retour_prevue": {
+                                        "type": "string",
+                                        "example": "2021-06-07T04:00:00.000Z"
+                                    },
+                                    "date_retour": {
+                                        "type": "string",
+                                        "example": "2025-06-07T04:00:00.000Z"
+                                    },
+                                    "status": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Prêt modifié avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le prêt à l'ID [id] a été modifié avec succès"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Erreur de paramètres manquants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le format des données est invalide"
+                                        },
+                                        "champs_manquants": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": ["livre_id", "emprunteur"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Clé API manquante ou invalide.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": { 
+                                            "type": "string", 
+                                            "example": "Vous devez fournir une clé api" 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404" : {
+                        "description": "Livre non rencontré",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le livre à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "500" : {
+                        "description": "Prêt non modifié",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la modification du prêt [id]"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Supprimer un livre.",
+                "security": [
+                    {
+                        "CleApiAuth": []
+                    }
+                ],
+                "tags": ["Livres"],
+                "description": "Supprimer un livre en fonction de son ID.",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "ID du livre",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Livre retrouvé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le livre avec l'id [id] a été supprimé avec succès"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Clé API manquante ou invalide.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": { 
+                                            "type": "string", 
+                                            "example": "Vous devez fournir une clé api" 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Livre non trouvé.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le livre à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "description": "Erreur server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la suppression du livre [id]"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
