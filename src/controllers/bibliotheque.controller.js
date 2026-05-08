@@ -188,6 +188,30 @@ export const modifierStatusLivre = async (req, res) => {
 };
 
 export const supprimerLivre = async (req, res) => {
+    const idLivre = req.params.id;
+    const bibliothequeId = req.bibliothequeId;
+
+    try {
+        const livreActuel = await bibliothequeModele._getLivreById(idLivre, bibliothequeId);
+
+        if(!livreActuel) {
+            return res.status(404).json({
+                erreur: `Le livre à l'ID [${idLivre}] n'existe pas pour cette bibliothèque dans la base de données`
+            });
+        }
+
+        await bibliothequeModele._supprimerPretsLivre(idLivre);
+        const resultat = await bibliothequeModele._supprimerLivre(idLivre, bibliothequeId);
+
+        return res.status(200).json({
+            message: `Le livre avec l'id [${idLivre}] a été supprimé avec succès` 
+        });
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
+        return res.status(500).json({
+            erreur: `Echec lors de la suppression du livre [${idLivre}]`
+        });
+    }
 };
 
 export const ajouterPret = async (req, res) => {
