@@ -151,6 +151,16 @@ const _supprimerPretsLivre = async(idLivre) => {
  * @param {object} pret Les données du prêt à ajouter.
  */
 const _ajouterPret = async (pret) => {
+    const requete = "INSERT INTO prets (livre_id, emprunteur, date_debut, date_retour_prevue, date_retour, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
+    const params = [pret.livre_id, pret.emprunteur, pret.date_debut, pret.date_retour_prevue, pret.date_retour, pret.status];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**

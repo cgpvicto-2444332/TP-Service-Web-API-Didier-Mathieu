@@ -75,7 +75,7 @@ export const ajouterLivre = async (req, res) => {
         titre: req.body.titre,
         auteur: req.body.auteur,
         isbn: req.body.isbn,
-        date_ajout: req.body.date_ajout || new Date(),
+        date_ajout: req.body.date_ajout || new Date().toLocaleDateString("fr-CA", { timeZone: "America/Toronto" }),
         disponible: req.body.disponible,
         description: req.body.description
     };
@@ -218,6 +218,66 @@ export const supprimerLivre = async (req, res) => {
 };
 
 export const ajouterPret = async (req, res) => {
+    const champsRequis = [
+        "livre_id",
+        "emprunteur",
+        "date_retour_prevue",
+        "status"
+    ];
+    
+    const champsManquants = [];
+
+    for (let i = 0; i < champsRequis.length; i++) {
+        const champ = champsRequis[i];
+        if (req.body[champ] === null || req.body[champ] === undefined || req.body[champ] === "") {
+            champsManquants.push(champ);
+        }
+    }
+    
+    if (champsManquants.length > 0) {
+        return res.status(400).json({
+            erreur: "Le format des données est invalide",
+            champs_manquants: champsManquants
+        });
+    }
+    
+    const idLivre = req.body.livre_id;
+    const bibliothequeId = req.bibliothequeId;
+    
+    try {
+        const livreActuel = await bibliothequeModele._getLivreById(idLivre, bibliothequeId);
+
+        if(!livreActuel) {
+            return res.status(404).json({
+                erreur: `Le livre à l'ID [${idLivre}] n'existe pas pour cette bibliothèque dans la base de données`
+            });
+        }
+
+        const nouveauPret = {
+            id: null,
+            livre_id: req.body.livre_id,
+            emprunteur: req.body.emprunteur,
+            // Pour la date d'aujourd'hui avec le bon fuseau horaire
+            date_debut: req.body.date_debut || new Date().toLocaleDateString("fr-CA", { timeZone: "America/Toronto" }),
+            date_retour_prevue: req.body.date_retour_prevue,
+            date_retour: req.body.date_retour,
+            status: req.body.status
+        };
+
+        const resultat = await bibliothequeModele._ajouterPret(nouveauPret);
+
+        nouveauPret.id = resultat.id;
+        
+        return res.status(201).json({
+            message: `Le prêt pour le livre [${idLivre}] a été ajouté avec succès`,
+            pret: resultat
+        });
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
+        return res.status(500).json({
+            erreur: `E<échec lors de la création du prêt pour le livre [${idLivre}]`
+        });
+    }
 };
 
 export const modifierPret = async (req, res) => {
