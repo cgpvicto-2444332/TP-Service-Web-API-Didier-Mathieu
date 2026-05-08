@@ -120,19 +120,22 @@ export const modifierLivre = async (req, res) => {
             champs_manquants: champsManquants
         });
     }
+
+    const idLivre = req.params.id;
+    const bibliothequeId = req.bibliothequeId;
     
     try {
-        const livreActuel = await bibliothequeModele._getLivreById(req.params.id, req.bibliothequeId);
+        const livreActuel = await bibliothequeModele._getLivreById(idLivre, req.bibliothequeId);
 
         if(!livreActuel) {
             return res.status(404).json({
-                erreur: `Le livre à l'ID [${req.params.id}] n'existe pas pour cette bibliothèque dans la base de données`
+                erreur: `Le livre à l'ID [${idLivre}] n'existe pas pour cette bibliothèque dans la base de données`
             });
         }
 
         const livreAModifier = {
-            id: req.params.id,
-            bibliotheque_id: req.bibliothequeId,
+            id: idLivre,
+            bibliotheque_id: bibliothequeId,
             titre: req.body.titre,
             auteur: req.body.auteur,
             isbn: req.body.isbn,
