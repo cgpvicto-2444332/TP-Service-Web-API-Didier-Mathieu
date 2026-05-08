@@ -87,7 +87,7 @@ export const ajouterLivre = async (req, res) => {
         
         return res.status(201).json({
             message: `Le livre [${nouveauLivre.titre}] a été ajouté avec succès`,
-            livre: nouveauLivre
+            livre: resultat
         });
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
@@ -269,13 +269,13 @@ export const ajouterPret = async (req, res) => {
         nouveauPret.id = resultat.id;
         
         return res.status(201).json({
-            message: `Le prêt pour le livre [${idLivre}] a été ajouté avec succès`,
+            message: `Le prêt id [${resultat.id}] pour le livre id [${idLivre}] a été ajouté avec succès`,
             pret: resultat
         });
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
         return res.status(500).json({
-            erreur: `E<échec lors de la création du prêt pour le livre [${idLivre}]`
+            erreur: `Echec lors de la création du prêt pour le livre [${idLivre}]`
         });
     }
 };

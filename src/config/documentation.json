@@ -800,6 +800,154 @@
                     }
                 }
             }
+        },
+        "/api/bibliotheque/pret": {
+            "post": {
+                "summary": "Ajouter un prêt.",
+                "security": [
+                    {
+                        "CleApiAuth": []
+                    }
+                ],
+                "tags": ["Prêts"],
+                "description": "Ajouter un prêt pour un livre et une bibliothèque particulière avec sa clé d'api.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["livre_id", "emprunteur", "date_retour_prevue", "status"],
+                                "properties": {
+                                    "livre_id": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "example": 1
+                                    },
+                                    "emprunteur": {
+                                        "type": "string",
+                                        "example": "Félix Beauchesne"
+                                    },
+                                    "date_debut": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2007-05-02",
+                                        "description": "Optionnel. Date de début du prêt (YYYY-MM-DD). Date actuelle par défaut."
+                                    },
+                                    "date_retour_prevue": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-06-07"
+                                    },
+                                    "date_retour": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-06-07",
+                                        "description": "Optionnel. Date de retour du prêt (YYYY-MM-DD)."
+                                    },
+                                    "status": {
+                                        "type": "boolean",
+                                        "example": true,
+                                        "description": "Optionnel. Le status du prêt. True si il est fini."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Prêt ajouté avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le prêt id [id] pour le livre id [id du livre] a été ajouté avec succès"
+                                        },
+                                        "pret": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 4
+                                                },
+                                                "livre_id": {
+                                                    "type": "integer",
+                                                    "format": "int32",
+                                                    "example": 1
+                                                },
+                                                "emprunteur": {
+                                                    "type": "string",
+                                                    "example": "Félix Beauchesne"
+                                                },
+                                                "date_debut": {
+                                                    "type": "string",
+                                                    "example": "2007-05-02T04:00:00.000Z"
+                                                },
+                                                "date_retour_prevue": {
+                                                    "type": "string",
+                                                    "example": "2026-06-07T04:00:00.000Z"
+                                                },
+                                                "date_retour": {
+                                                    "type": "string",
+                                                    "example": "2026-06-07T04:00:00.000Z"
+                                                },
+                                                "status": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de paramètres manquants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le format des données est invalide"
+                                        },
+                                        "champs_manquants": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": ["livre_id", "emprunteur"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500" : {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la création du prêt pour le livre [id du livre]"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
