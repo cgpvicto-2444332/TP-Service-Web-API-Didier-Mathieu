@@ -281,6 +281,65 @@ export const ajouterPret = async (req, res) => {
 };
 
 export const modifierPret = async (req, res) => {
+    const champsRequis = [
+        "livre_id",
+        "emprunteur",
+        "date_debut",
+        "date_retour_prevue",
+        "status"
+    ];
+    
+    const champsManquants = [];
+
+    for (let i = 0; i < champsRequis.length; i++) {
+        const champ = champsRequis[i];
+        if (req.body[champ] === null || req.body[champ] === undefined || req.body[champ] === "") {
+            champsManquants.push(champ);
+        }
+    }
+    
+    if (champsManquants.length > 0) {
+        return res.status(400).json({
+            erreur: "Le format des données est invalide",
+            champs_manquants: champsManquants
+        });
+    }
+
+    const idLivre = req.body.livre_id;
+    const bibliothequeId = req.bibliothequeId;
+    
+    try {
+        const livre = await bibliothequeModele._getLivreById(idLivre, bibliothequeId);
+
+        if(!livre) {
+            return res.status(404).json({
+                erreur: `Le livre à l'ID [${idLivre}] n'existe pas pour cette bibliothèque dans la base de données`
+            });
+        }
+
+        const idPret = req.params.id;
+
+        const pretAModifier = {
+            id: idPret,
+            livre_id: idLivre,
+            emprunteur: req.body.emprunteur,
+            date_debut: req.body.date_debut,
+            date_retour_prevue: req.body.date_retour_prevue,
+            date_retour: req.body.date_retour,
+            status: req.body.status
+        };
+
+        const resultat = await bibliothequeModele._modifierPret(idPret, pretAModifier);
+
+        return res.status(200).json({
+            message: `Le prêt à l'ID [${pretAModifier.id}] a été modifié avec succès`
+        });
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
+        return res.status(500).json({
+            erreur: `Echec lors de la modification du prêt [${idPret}]`
+        });
+    }
 };
 
 export const modifierStatusPret = async (req, res) => {

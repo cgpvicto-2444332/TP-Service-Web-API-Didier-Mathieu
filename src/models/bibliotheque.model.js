@@ -169,6 +169,16 @@ const _ajouterPret = async (pret) => {
  * @param {object} pret Les données du prêt à modifier.
  */
 const _modifierPret = async (id, pret) => {
+    const requete = "UPDATE prets SET livre_id = $1, emprunteur = $2, date_debut = $3, date_retour_prevue = $4, date_retour = $5, status = $6 WHERE id = $7 RETURNING *";
+    const params = [pret.livre_id, pret.emprunteur, pret.date_debut, pret.date_retour_prevue, pret.date_retour, pret.status, id];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**
