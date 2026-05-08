@@ -112,7 +112,7 @@ const _modifierStatusLivre = async (id, bibliothequeId, status) => {
 
 /**
  * Supprime un livre en fonction de son identifiant.
- * @param {number} id id L'identifiant du livre à supprimer.
+ * @param {number} id L'identifiant du livre à supprimer.
  * @param {number} bibliothequeId L'identifiant de la bibliothèque.
  */
 const _supprimerLivre = async (id, bibliothequeId) => {
@@ -145,6 +145,25 @@ const _supprimerPretsLivre = async(idLivre) => {
         throw erreur;
     }
 };
+
+/**
+ * Vérifie si un prêt existe dans la BD pour une bibliothèque en particulière.
+ * @param {number} idPret L'identifiant du prêt à récupérer.
+ * @param {number} bibliothequeId L'identifiant de la bibliothèque.
+ * @returns 
+ */
+const _getPretById = async (idPret, bibliothequeId) => {
+    const requete = "SELECT * FROM prets JOIN livres ON prets.livre_id = livres.id WHERE prets.id = $1 AND livres.bibliotheque_id = $2";
+    const params = [idPret, bibliothequeId];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
+}
 
 /**
  * Insère un prêt dans la base de donnée.
@@ -205,6 +224,7 @@ export {
     _modifierStatusLivre,
     _supprimerLivre,
     _supprimerPretsLivre,
+    _getPretById,
     _ajouterPret,
     _modifierPret,
     _modifierStatusPret,

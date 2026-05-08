@@ -305,10 +305,19 @@ export const modifierPret = async (req, res) => {
         });
     }
 
+    const idPret = req.params.id;
     const idLivre = req.body.livre_id;
     const bibliothequeId = req.bibliothequeId;
     
     try {
+        const pretExistant = await bibliothequeModele._getPretById(idPret, bibliothequeId);
+
+        if (!pretExistant) {
+            return res.status(404).json({
+                erreur: `Le prêt à l'ID [${idPret}] n'existe pas pour cette bibliothèque dans la base de données`
+            });
+        }
+
         const livre = await bibliothequeModele._getLivreById(idLivre, bibliothequeId);
 
         if(!livre) {
@@ -316,8 +325,6 @@ export const modifierPret = async (req, res) => {
                 erreur: `Le livre à l'ID [${idLivre}] n'existe pas pour cette bibliothèque dans la base de données`
             });
         }
-
-        const idPret = req.params.id;
 
         const pretAModifier = {
             id: idPret,

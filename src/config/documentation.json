@@ -1164,7 +1164,7 @@
                                     "properties": {
                                         "erreur": {
                                             "type": "string",
-                                            "example": "Le livre à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
+                                            "example": "Le prêt à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
                                         }
                                     }
                                 }
