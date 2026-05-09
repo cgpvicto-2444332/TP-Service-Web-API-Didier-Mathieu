@@ -223,6 +223,16 @@ const _modifierStatusPret = async (id, status) => {
  * @param {number} id id L'identifiant du prêt à supprimer.
  */
 const _supprimerPret = async (id) => {
+    const requete = "DELETE FROM prets WHERE id = $1 RETURNING *";
+    const params = [id];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 export {
