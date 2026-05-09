@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import path from 'path';
 import morgan from 'morgan';
+import cors from 'cors';
 import bibliothequeRouter from './src/routes/bibliotheque.route.js';
 import utilisateurRouter from './src/routes/utilisateur.route.js';
 
@@ -24,6 +25,8 @@ const swaggerOptions = {
 };
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use('/api/docs',
         swaggerUi.serve,
