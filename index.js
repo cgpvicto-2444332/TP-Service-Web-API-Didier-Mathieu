@@ -11,7 +11,7 @@ const port = process.env.PORT || 3030;
 
 var accessLogStream = fs.createWriteStream('./errors.log', { flags: 'a' });
 
-app.use(morgan('dev', { 
+app.use(morgan('combined', { 
     stream: accessLogStream,
     skip: function (req, res) { return res.statusCode !== 500 }
 }));
