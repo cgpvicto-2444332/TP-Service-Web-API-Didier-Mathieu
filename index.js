@@ -1,8 +1,20 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
+import path from 'path';
+import morgan from 'morgan';
 import bibliothequeRouter from './src/routes/bibliotheque.route.js';
 import utilisateurRouter from './src/routes/utilisateur.route.js';
+
+const app = express();
+const port = process.env.PORT || 3030;
+
+var accessLogStream = fs.createWriteStream('./errors.log', { flags: 'a' });
+
+app.use(morgan('dev', { 
+    stream: accessLogStream,
+    skip: function (req, res) { return res.statusCode !== 500 }
+}));
 
 const swaggerDocument = JSON.parse(fs.readFileSync('./src/config/documentation.json', 'utf8'));
 
@@ -10,9 +22,6 @@ const swaggerOptions = {
     customCss: '.swagger-ui .topbar { display: none }',
     customSiteTitle: "Bibliotheque API"
 };
-
-const app = express();
-const port = process.env.PORT || 3030;
 
 app.use(express.json());
 

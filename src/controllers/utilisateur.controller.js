@@ -38,16 +38,14 @@ export const ajouterUtilisateur = async (req, res) => {
     try {
         await utilisateursModel._ajouterUtilisateur(nouvelUtilisateur);
         
-        res.status(201).json({
+        return res.status(201).json({
             message: `La bibliothèque a été créé avec succès`,
             cle_api: nouvelUtilisateur.cle_api
         });
     } catch (erreur) {
-        res.status(500);
-        res.send({
+        return res.status(500).json({
             erreur: `Echec lors de la création de la bibliothèque [${nouvelUtilisateur.nom}]`
         });
-        return;
     }
 };
 
