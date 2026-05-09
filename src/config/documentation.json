@@ -727,7 +727,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Le status du libre à l'ID [id] a été modifié avec succès"
+                                            "example": "Le status du livre à l'ID [id] a été modifié avec succès"
                                         }
                                     }
                                 }   
@@ -1198,13 +1198,13 @@
                         "CleApiAuth": []
                     }
                 ],
-                "tags": ["Livres"],
-                "description": "Modifier le status d'un livre en fonction de son ID.",
+                "tags": ["Prêts"],
+                "description": "Modifier le status d'un prêt en fonction de son ID.",
                 "parameters": [
                     {
                         "in": "path",
                         "name": "id",
-                        "description": "ID du livre",
+                        "description": "ID du prêt",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -1219,9 +1219,9 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "required": ["disponible"],
+                                "required": ["status"],
                                 "properties": {
-                                    "disponible": {
+                                    "status": {
                                         "type": "boolean",
                                         "example": true
                                     }
@@ -1232,7 +1232,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Status du livre modifié avec succès",
+                        "description": "Status du prêt modifié avec succès",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1240,7 +1240,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Le status du libre à l'ID [id] a été modifié avec succès"
+                                            "example": "Le status du prêt à l'ID [id] a été modifié avec succès"
                                         }
                                     }
                                 }   
@@ -1256,7 +1256,7 @@
                                     "properties": {
                                         "erreur": {
                                             "type": "string",
-                                            "example": "Le champ disponible est invalide"
+                                            "example": "Le champ de status est invalide"
                                         }
                                     }
                                 }
@@ -1280,7 +1280,7 @@
                         }
                     },
                     "404" : {
-                        "description": "Livre non rencontré",
+                        "description": "Prêt non rencontré",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1288,7 +1288,7 @@
                                     "properties": {
                                         "erreur": {
                                             "type": "string",
-                                            "example": "Le livre à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
+                                            "example": "Le prêt à l'ID [id] n'existe pas pour cette bibliothèque dans la base de données"
                                         }
                                     }
                                 }   
@@ -1296,7 +1296,7 @@
                         }
                     },
                     "500" : {
-                        "description": "Status du livre non modifié",
+                        "description": "Status du prêt non modifié",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1304,7 +1304,7 @@
                                     "properties": {
                                         "erreur": {
                                             "type": "string",
-                                            "example": "Echec lors de la modification du status du livre [id]"
+                                            "example": "Echec lors de la modification du prêt [id]"
                                         }
                                     }
                                 }   

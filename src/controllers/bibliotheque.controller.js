@@ -180,7 +180,7 @@ export const modifierStatusLivre = async (req, res) => {
         const resultat = await bibliothequeModele._modifierStatusLivre(idLivre, bibliothequeId, status);
 
         return res.status(200).json({
-            message: `Le status du libre à l'ID [${idLivre}] a été modifié avec succès`
+            message: `Le status du livre à l'ID [${idLivre}] a été modifié avec succès`
         });
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
@@ -372,7 +372,7 @@ export const modifierStatusPret = async (req, res) => {
         const resultat = await bibliothequeModele._modifierStatusPret(idPret, status);
 
         return res.status(200).json({
-            message: `Le prêt à l'ID [${idPret}] a été modifié avec succès`
+            message: `Le status du prêt à l'ID [${idPret}] a été modifié avec succès`
         });
     } catch (erreur) {
         console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
