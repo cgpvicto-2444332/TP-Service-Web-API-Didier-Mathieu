@@ -1,3 +1,0 @@
-[0mGET /api/bibliotheque/livre [31m500[0m 17.442 ms - 57[0m
-[0mGET /api/bibliotheque/livre/1 [31m500[0m 1.480 ms - 57[0m
-[0mGET /api/bibliotheque/livre/1 [31m500[0m 14.606 ms - 57[0m
