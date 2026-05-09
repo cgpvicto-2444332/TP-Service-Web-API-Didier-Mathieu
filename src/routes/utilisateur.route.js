@@ -4,6 +4,6 @@ import * as utilisateursController from '../controllers/utilisateur.controller.j
 const router = express.Router();
 
 router.post('/', utilisateursController.ajouterUtilisateur);
-router.get('/cle', utilisateursController.recupererCle);
+router.post('/cle', utilisateursController.recupererCle);
 
 export default router;

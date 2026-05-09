@@ -1313,6 +1313,205 @@
                     }
                 }
             }
+        },
+        "/api/utilisateurs" : {
+            "post": {
+                "summary": "Ajouter une bibliothèque",
+                "tags": ["Utilisateurs"],
+                "description": "Ajouter une bibliothèque en fournissant un nom, un courriel et un mot de passe",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["nom", "courriel", "password"],
+                                "properties": {
+                                    "nom": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "courriel": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Bibliothèque ajoutée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "La bibliothèque a été créé avec succès"
+                                        },
+                                        "cle_api": {
+                                            "type": "string",
+                                            "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de paramètres manquants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Le format des données est invalide"
+                                        },
+                                        "champ_manquant": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": ["nom", "courriel"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500" : {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Echec lors de la création de la bibliothèque [nom]"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/utilisateurs/cle" : {
+            "post": {
+                "summary": "Récupérer ou regénérer clé api.",
+                "tags": ["Utilisateurs"],
+                "description": "Récupère la clé api d'un utilisateur avec son courriel et mot de passe.",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "nouvelle",
+                        "schema": {
+                            "type": "string",
+                            "enum": ["1"]
+                        },
+                        "required": false,
+                        "description": "Si égal à 1, génère et remplace la clé API existante."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": ["courriel", "password"],
+                                "properties": {
+                                    "courriel": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Clé api récupérée avec succès.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cle_api": {
+                                            "type": "string",
+                                            "example": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de paramètres manquants",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Vous devez fournir un courriel et un mot de passe"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bibliothèque inexistante ou mot de passe invalide.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": { 
+                                            "type": "string", 
+                                            "example": "La bibliothèque n'existe pas" 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur server",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Erreur lors de la récupération de la clé"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
