@@ -350,6 +350,36 @@ export const modifierPret = async (req, res) => {
 };
 
 export const modifierStatusPret = async (req, res) => {
+    const idPret = req.params.id;
+    const bibliothequeId = req.bibliothequeId;
+    const status = req.body.status;
+
+    if (status !== true && status !== false) {
+        return res.status(400).json({
+            erreur: "Le champ de status est invalide"
+        });
+    }
+    
+    try {
+        const pretExistant = await bibliothequeModele._getPretById(idPret, bibliothequeId);
+
+        if (!pretExistant) {
+            return res.status(404).json({
+                erreur: `Le prêt à l'ID [${idPret}] n'existe pas pour cette bibliothèque dans la base de données`
+            });
+        }
+
+        const resultat = await bibliothequeModele._modifierStatusPret(idPret, status);
+
+        return res.status(200).json({
+            message: `Le prêt à l'ID [${idPret}] a été modifié avec succès`
+        });
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} message: ${erreur.message}`);
+        return res.status(500).json({
+            erreur: `Echec lors de la modification du prêt [${idPret}]`
+        });
+    }
 };
 
 export const supprimerPret = async(req, res) => {

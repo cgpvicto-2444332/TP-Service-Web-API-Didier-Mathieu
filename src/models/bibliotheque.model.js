@@ -206,6 +206,16 @@ const _modifierPret = async (id, pret) => {
  * @param {string} status Le status du prêt à modifier.
  */
 const _modifierStatusPret = async (id, status) => {
+    const requete = "UPDATE prets SET status = $1 WHERE id = $2 RETURNING *";
+    const params = [status, id];
+
+    try {
+        const resultats = await pool.query(requete, params);
+        return resultats.rows[0] ?? null;
+    } catch (erreur) {
+        console.log(`Erreur SQL - code: ${erreur.code} : ${erreur.message}`);
+        throw erreur;
+    }
 };
 
 /**
